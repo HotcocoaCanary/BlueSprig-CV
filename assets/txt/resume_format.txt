@@ -1,0 +1,223 @@
+// 注意：简历中未明确提供的信息，必须保持""的json输出。
+// 注意，必须严格按照以下JSON的注释信息和相关要求找到简历中的对应字段填入。
+// 注意：这里的JSON有对这条字段的对应要求和解释，生成的JSON不允许有任何注释。
+{
+    // 求职意向信息
+    "job_intent_info": [
+        // 严重警告：特别特别必须必须注意，job_intent_info数组下最多可包含5个对象。
+        {
+            "job_intention": "", // 意向工作岗位
+            "expected_salary": "", // 期望薪资
+            "preferred_city": "", // 期望城市
+            "job_industry": "", //求职行业类型。
+            "job_type": "" //求职职位类型。可选项：全职/兼职。
+        }
+    ],
+    //基本信息
+    "basic_info": {
+        "name": "", //姓名
+        "age": "", //年龄。格式要求：数字。
+        "sex": "", //性别。可选项：男/女。
+        "native_place": "", //籍贯
+        "education": "", //学历
+	    "current_employment_status": "", //目前求职状态。可选项：在职/离职/在校。
+        "if_party_membership": "", //判断是否为党员。可选：是/否。
+        "marital_status": "", //婚育情况
+        "phone_number": "", //联系电话。格式要求：11位数字。
+        "email": "" //电子邮箱
+        "if_regular_admissions":"" //判断是否为统招生。可选：是/否。
+        "if_fresh_graduate:"" //判断是否为应届生。可选：是/否。
+        "years_of_work_experience:"" //工作年限
+        "desired_salary:"" //综合期望薪资
+    },
+    // 自我介绍
+    "self_evaluation": [
+        //可以选择从“专业背景”、“从业背景”、“专业能力”、“学习能力”、“管理能力”、“性格特质”等多维度选择最突出的三个点来写。保证基础文本量，如原简历文字量较多，则保证原文本量的80%；如原来的文本量较少，例如少于300字，则扩展扩展至500-700字的范例
+        {
+            "item": "",
+            "description": ""
+        },
+        {
+            "item": "",
+            "description": ""
+        },{
+            "item": "",
+            "description": ""
+        }
+    ],
+    // 应聘企业
+    "wanted_job": [
+        {
+            "applying_company_name": "", //应聘企业名称
+            "applied_position": "", //应聘岗位名称
+        },
+    ],
+    // 工作经历（按照工作时间由近及远排列）
+    "work_experience": [
+        // 严重警告：特别特别必须必须注意，work_experience数组下最多可包含5个对象。
+        // 必须警惕：此处为应聘者过去的工作经历，注意不是应聘企业和求职意向。
+        // 如果应聘者没有工作经历，则可以跳过工作经历部分。
+        // 注意：必须全部按照原文全部摘录，不得省略任何信息！！不得省略任何信息！！不得省略任何信息！！
+        {
+            "job_position": "", //第1个工作岗位。警告：此处检查，工作岗位绝对不能是应聘岗位或求职意向！
+            "work_period": "", //工作时间
+            "company_name": "", //单位名称。警告：此处检查单位名称绝对不能是应聘企业名称！
+            "work_content": "", //工作内容。必须全部按照原文摘录，不得省略。如果分点描述，此处也必须分点描述。
+        },
+        {
+            "job_position": "", //第2个工作岗位
+            "work_period": "", //工作时间
+            "company_name": "", //单位名称
+            "work_content": "", //工作内容。必须全部按照原文摘录，不得省略。如果分点描述，此处也必须分点描述。
+        },
+        {
+            "job_position": "", //第3个工作岗位
+            "work_period": "", //工作时间
+            "company_name": "", //单位名称
+            "work_content": "", //工作内容。必须全部按照原文摘录，不得省略。如果分点描述，此处也必须分点描述。
+        },
+        {
+            "job_position": "", //第4个工作岗位
+            "work_period": "", //工作时间
+            "company_name": "", //单位名称
+            "work_content": "", //工作内容。必须全部按照原文摘录，不得省略。如果分点描述，此处也必须分点描述。
+        },
+        {
+            "job_position": "", //第5个工作岗位
+            "work_period": "", //工作时间
+            "company_name": "", //单位名称
+            "work_content": "", //工作内容。必须全部按照原文摘录，不得省略。如果分点描述，此处也必须分点描述。
+        }
+        // 再次提醒：特别特别必须必须注意，work_experience数组下最多可包含5个对象。
+    ],
+    // 项目经历（按照项目时间由近及远排列）
+    "project_experience": [
+        // 严重警告：特别特别必须必须注意，project_experience数组下最多可包含5个对象。
+        // 注意：必须全部按照原文全部摘录，不得省略任何信息！！不得省略任何信息！！不得省略任何信息！！
+        {
+            "project_name": "", //第1个项目名称
+            "project_position": "", //担任角色
+            "project_period": "", //项目时间
+            "project_company_name": "", //单位名称
+            "project_description": "", //项目描述（项目成果）。必须全部按照原文摘录，不得省略。如果分点描述，此处也必须分点描述。
+        },
+        {
+            "project_name": "", //第2个项目名称
+            "project_position": "", //担任角色
+            "project_period": "", //项目时间
+            "project_company_name": "", //单位名称
+            "project_description": "", //项目描述（项目成果）。必须全部按照原文摘录，不得省略。如果分点描述，此处也必须分点描述。
+        },
+        {
+            "project_name": "", //第3个项目名称
+            "project_position": "", //担任角色
+            "project_period": "", //项目时间
+            "project_company_name": "", //单位名称
+            "project_description": "", //项目描述（项目成果）。必须全部按照原文摘录，不得省略。如果分点描述，此处也必须分点描述。
+        },
+        {
+            "project_name": "", //第4个项目名称
+            "project_position": "", //担任角色
+            "project_period": "", //项目时间
+            "project_company_name": "", //单位名称
+            "project_description": "", //项目描述（项目成果）。必须全部按照原文摘录，不得省略。如果分点描述，此处也必须分点描述。
+        },
+        {
+            "project_name": "", //第5个项目名称
+            "project_position": "", //担任角色
+            "project_period": "", //项目时间
+            "project_company_name": "", //单位名称
+            "project_description": "", //项目描述（项目成果）。必须全部按照原文摘录，不得省略。如果分点描述，此处也必须分点描述。
+        }
+        // 再次提醒：特别特别必须必须注意，project_experience数组下最多可包含5个对象。
+    ],
+    // 教育经历（按照就读时间由近及远排列）
+    "education_experience": [
+        {
+            "institution_name": "", //院校名称
+            "study_period": "", //就读时间
+            "academic_ranking": "", //成绩排名
+            "major": "", //专业名称
+            "degree": "", //学历
+            "campus_position": "", //在校职务
+            "campus_experience": "", //在校经历
+            "competition_experience": "", //参赛经历
+            "competition_results": "", //参赛成绩
+            "patents": "", //发明专利
+            "charity_activities": "", //公益活动
+        },
+    ],
+    // 荣誉证书
+    "certificates": {
+        //比赛奖项
+        "competition_awards": [
+            {
+                "item": "",
+                "description": ""
+            }
+        ],
+        //专利证书
+        "patent_certificates": [
+            {
+                "item": "",
+                "description": ""
+            }
+        ],
+        //培训证书
+        "training_certificates": [
+            {
+                "item": "",
+                "description": ""
+            }
+        ],
+        //公益活动证书
+        "charity_certificates": [
+            {
+                "item": "",
+                "description": ""
+            }
+        ],
+        //技能证书
+        "skills_certificates": [
+            {
+                "item": "",
+                "description": ""
+            }
+        ],
+        //资格认证（例如从医资格证）
+        "qualification_certificates": [
+            {
+                "item": "",
+                "description": ""
+            }
+        ]
+    },
+    // 兴趣特长
+    "interests": {
+        "specialties": "", //特长
+        "hobbies": "", //兴趣
+        "interests": "", //爱好
+    },
+    // 语言能力
+    "language_ability": [
+        {
+            "language_type": "", //语种
+            "proficiency_description": "", //掌握程度描述
+            "language_certificate": "", //证书
+        },
+    ],
+    // 技能
+    "technical_skills": {
+        "skill_name": "", //技能名称
+        "skill_level": "", //技能等级
+        "skill_description": "", //技能描述
+    },
+    // 作品展示
+    "portfolio": [
+        {
+            "work_name": "", //作品名称
+            "work_description": "", //作品描述
+            "work_link": "", //作品链接
+        },
+    ]
+}
