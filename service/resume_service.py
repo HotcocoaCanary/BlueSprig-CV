@@ -13,11 +13,12 @@ def get_format_resume(resume_path):
     content= ""
     for item in content_list:
         if item["type"] == "text":
-            content += item["content"]
+            content += item["content"]+"\n\n"
         else:
             text = image_to_text(item["content"])
-            content += text
+            content += text+"\n\n"
 
+    print(content)
     resume_format = read_txt('assets/txt/resume_format.txt')
     response_content = format_resume(resume_format, content)
 

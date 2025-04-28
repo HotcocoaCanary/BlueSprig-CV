@@ -30,6 +30,7 @@ class TextGeneration:
         response = requests.post(url, json=data, headers=headers, params=params)
 
         if response.status_code == 200:
+            print(response.content)
             res_obj = response.json()
             if res_obj['code'] == 0 and 'data' in res_obj:
                 return res_obj['data']['content']
