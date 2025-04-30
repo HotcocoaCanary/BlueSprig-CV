@@ -1,0 +1,29 @@
+// 未提供的信息保持""的json输出，或者直接跳过。这里的JSON有注释，生成的JSON不允许有任何注释。
+{
+    "work_experience": [
+        {
+            "company": "",
+            "position": "",
+            "location": "",
+            "duration": "",
+            "responsibilities": [
+                //必须写至少3个方面，从工作职责、项目管理、策略制定、技术攻坚、行业研究等方面对工作内容进行描述说明
+                {
+                    "item": "",
+                    "description": ""
+                },
+                {
+                    "item": "",
+                    "description": ""
+                },{
+                    "item": "",
+                    "description": ""
+                },
+                {
+                    "item": "",
+                    "description": ""
+                }
+            ]
+        }
+    ]
+}
