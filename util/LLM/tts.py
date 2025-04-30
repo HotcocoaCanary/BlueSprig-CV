@@ -12,6 +12,9 @@ from util.LLM.aigc_auth import gen_sign_headers
 from dotenv import load_dotenv
 
 load_dotenv()
+"""
+文本转语音 
+"""
 
 
 class TTSConnectionError(Exception):

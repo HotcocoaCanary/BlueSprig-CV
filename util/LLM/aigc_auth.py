@@ -12,6 +12,10 @@ import urllib.parse
 from dotenv import load_dotenv
 import os
 
+"""
+大赛工具
+"""
+
 __all__ = ['gen_sign_headers']
 
 load_dotenv()

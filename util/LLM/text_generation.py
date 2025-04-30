@@ -4,6 +4,9 @@ import requests
 
 from util.LLM.aigc_auth import gen_sign_headers
 
+"""
+文本生成
+"""
 
 class TextGeneration:
     def __init__(self):

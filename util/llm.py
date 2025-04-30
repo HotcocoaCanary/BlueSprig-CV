@@ -1,4 +1,5 @@
 import base64
+import json
 
 from util.LLM.text_generation import TextGeneration
 
@@ -89,34 +90,6 @@ def better_resume(better_resume_format, content):
     ]
     text_generation = TextGeneration()
     response = text_generation.blue_llm_70B(messages, 1.0)
-    return response
-
-
-def resume_judge(resume_judge_format, content):
-    messages = [
-        {
-            "role": "user",
-            "content": f"""
-你是一个专业简历诊断专家，请严格按照以下要求评价所提供的简历：
-1. 基于用户提供的简历内容（非空部分）进行专业诊断
-2. 诊断必须包含总评（summary）和评分（score）
-3. 总评要求：
-   - 使用第二人称"你"进行评价
-   - 禁止出现任何人名
-   - 简明扼要（100字内）
-   - 包含优势和改进建议
-4. 输出要求：
-   - 严格使用指定JSON格式
-   - 直接输出有效JSON代码
-   - 禁止任何注释或说明
-5. JSON格式模板如下，其中你需要补充的简历诊断内容必须必须做到详细、具体、专业：
-{resume_judge_format}"""
-        },
-        {
-            "role": "user",
-            "content": f"请诊断以下简历：\n{content}"
-        }
-    ]
-    text_generation = TextGeneration()
-    response = text_generation.blue_llm_70B(messages, 1.0)
-    return response
+    result = normalize_json(response)
+    resume_json = json.loads(result)
+    return resume_json
