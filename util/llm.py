@@ -1,5 +1,4 @@
 import base64
-import json
 
 from util.LLM.text_generation import TextGeneration
 
@@ -19,7 +18,7 @@ def image_to_text(image_path):
     with open(image_path, "rb") as f:
         b_image = f.read()
     image = base64.b64encode(b_image).decode('utf-8')
-    messages=[
+    messages = [
         {
             "role": "user",
             "content": "data:image/JPEG;base64," + image,
@@ -35,6 +34,7 @@ def image_to_text(image_path):
     result = text_generation.blue_llm_multimodal(messages)
     return result
 
+
 def format_resume(resume_format, content):
     """
     根据给定的简历格式和内容，提取简历信息并返回格式化后的简历。
@@ -46,7 +46,7 @@ def format_resume(resume_format, content):
     返回:
     str: 格式化后的简历信息。
     """
-    messages=[
+    messages = [
         {
             "role": "user",
             "content": f"""
@@ -62,34 +62,34 @@ def format_resume(resume_format, content):
         }
     ]
     text_generation = TextGeneration()
-    response = text_generation.blue_llm_70B(messages, 1.0)
+    response = text_generation.blue_llm_70B(messages, 0.01)
     return response
 
-def better_resume(better_resume_format, content):
+
+def better_resume_by_module(better_resume_format_part, content_part, part_name):
     messages = [
         {
             "role": "user",
             "content": f"""
-你是一个高度专业的简历润色专家，你需要基于用户的原简历的信息进行严谨地详尽丰富修改优化。
+你是一个高度专业的简历润色专家，你需要基于用户的原简历的信息针对{part_name}模块进行严谨地详尽丰富修改优化。
 内容要求：
-- 针对原简历中有的信息，参考模板JSON的注释进行丰富优化表达；
-    - 保证基础文本量，
-        - 如原简历文字量较多，例如≥2页，则保证原文本量的80%；
-        - 如原来的文本量较少，例如少于300字，则扩展扩展至500-700字的范例
+- 针对现有模块中有的信息，参考模板JSON的注释进行丰富优化表达；
+    - 保证基础文本量,
+        - 如原简历文字量较多，例如600字，则保证原文本量的75%;
+        - 如原来的文本量较少，例如少于300字，则扩展扩展至400-600字的范例
 - 原简历中没有提及的信息项必须保持为空，绝对不能杜撰任何虚假信息。
 输出格式要求：
 - 必须严格按照以下的JSON格式返回JSON的代码本身，绝对不能生成任何注释说明。
 以下是JSON格式要求：
-{better_resume_format}
+{better_resume_format_part}
 """
         },
         {
             "role": "user",
-            "content": content
+            "content": f"请帮我优化{part_name}模块,内容如下:"
+                       f"{content_part}"
         }
     ]
     text_generation = TextGeneration()
-    response = text_generation.blue_llm_70B(messages, 1.0)
-    result = normalize_json(response)
-    resume_json = json.loads(result)
-    return resume_json
+    response = text_generation.blue_llm_70B(messages, 0.7)
+    return response

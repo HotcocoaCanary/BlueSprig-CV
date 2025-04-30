@@ -20,15 +20,13 @@
         "sex": "", //性别。可选项：男/女。
         "native_place": "", //籍贯
         "education": "", //学历
-	    "current_employment_status": "", //目前求职状态。可选项：在职/离职/在校。
         "if_party_membership": "", //判断是否为党员。可选：是/否。
         "marital_status": "", //婚育情况
         "phone_number": "", //联系电话。格式要求：11位数字。
         "email": "" //电子邮箱
-        "if_regular_admissions":"" //判断是否为统招生。可选：是/否。
         "if_fresh_graduate:"" //判断是否为应届生。可选：是/否。
-        "years_of_work_experience:"" //工作年限
-        "desired_salary:"" //综合期望薪资
+        "years_of_work_experience": "2",//工作年限
+        "expected_salary": "", // 期望薪资
     },
     // 工作经历（按照工作时间由近及远排列）
     "work_experience": [
@@ -173,25 +171,18 @@
             }
         ]
     },
-    // 兴趣特长
-    "interests": {
-        "specialties": "", //特长
-        "hobbies": "", //兴趣
-        "interests": "", //爱好
-    },
-    // 语言能力
-    "language_ability": [
-        {
-            "language_type": "", //语种
-            "proficiency_description": "", //掌握程度描述
-            "language_certificate": "", //证书
-        },
-    ],
     // 技能
     "technical_skills": {
-        "skill_name": "", //技能名称
-        "skill_level": "", //技能等级
-        "skill_description": "", //技能描述
+        {
+            "skill_name": "", //技能名称
+            "skill_level": "", //熟练程度，选填（了解，良好,一般，熟练）
+            "skill_description": "", //技能描述
+        },
+        {
+            "skill_name": "", //技能名称
+            "skill_level": "", //熟练程度，选填（了解，良好,一般，熟练）
+            "skill_description": "", //技能描述
+        }
     },
     // 作品展示
     "portfolio": [

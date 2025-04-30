@@ -8,6 +8,7 @@ from util.LLM.aigc_auth import gen_sign_headers
 文本生成
 """
 
+
 class TextGeneration:
     def __init__(self):
         self.domain = 'api-ai.vivo.com.cn'
@@ -68,4 +69,3 @@ class TextGeneration:
                 return f"Error: {res_obj['msg']}"
         else:
             return f"HTTP Error: {response.status_code} {response.text}"
-

@@ -19,6 +19,7 @@ def load_file(file_path: str, image_output_dir: str = "assets/image") -> list:
 
     return content
 
+
 def _get_file_list(file_path: str, image_output_dir: str = "assets/image") -> list:
     """
     加载文件并提取内容和图片
