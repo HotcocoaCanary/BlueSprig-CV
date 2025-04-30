@@ -3,8 +3,23 @@ import uuid
 from docx import Document
 import fitz  # PyMuPDF
 
+from util.llm import image_to_text
+
 
 def load_file(file_path: str, image_output_dir: str = "assets/image") -> list:
+    content_list = _get_file_list(file_path, image_output_dir)
+    # 将content_list读取为json，并将每一项的内容进行拼接
+    content = ""
+    for item in content_list:
+        if item["type"] == "text":
+            content += item["content"] + "\n\n"
+        else:
+            text = image_to_text(item["content"])
+            content += text + "\n\n"
+
+    return content
+
+def _get_file_list(file_path: str, image_output_dir: str = "assets/image") -> list:
     """
     加载文件并提取内容和图片
     :param file_path: 文件路径（支持.docx和.pdf）

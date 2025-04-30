@@ -1,4 +1,5 @@
 import base64
+import json
 
 from util.LLM.text_generation import TextGeneration
 
@@ -48,7 +49,12 @@ def format_resume(resume_format, content):
     messages=[
         {
             "role": "user",
-            "content": f"你是一个高度专业的简历信息提取专家。你需要根据下面要求的json格式以及里面的备注说明、基于用户的原简历的信息进行严谨地信息提取。你的输出格式要求：按照以下严格的JSON格式返回JSON的代码本身，绝对不能生成任何注释说明。以下是JSON格式要求：{resume_format}"
+            "content": f"""
+你是一个高度专业的简历信息提取专家。
+你需要根据下面要求的json格式以及里面的备注说明、基于用户的原简历的信息进行严谨地信息提取。
+你的输出格式要求：按照以下严格的JSON格式返回JSON的代码本身，绝对不能生成任何注释说明。
+以下是JSON格式要求：{resume_format}
+"""
         },
         {
             "role": "user",
@@ -56,5 +62,34 @@ def format_resume(resume_format, content):
         }
     ]
     text_generation = TextGeneration()
-    result = text_generation.blue_llm_70B(messages, 1.0)
-    return result
+    response = text_generation.blue_llm_70B(messages, 1.0)
+    return response
+
+def better_resume(better_resume_format, content):
+    messages = [
+        {
+            "role": "user",
+            "content": f"""
+你是一个高度专业的简历润色专家，你需要基于用户的原简历的信息进行严谨地详尽丰富修改优化。
+内容要求：
+- 针对原简历中有的信息，参考模板JSON的注释进行丰富优化表达；
+    - 保证基础文本量，
+        - 如原简历文字量较多，例如≥2页，则保证原文本量的80%；
+        - 如原来的文本量较少，例如少于300字，则扩展扩展至500-700字的范例
+- 原简历中没有提及的信息项必须保持为空，绝对不能杜撰任何虚假信息。
+输出格式要求：
+- 必须严格按照以下的JSON格式返回JSON的代码本身，绝对不能生成任何注释说明。
+以下是JSON格式要求：
+{better_resume_format}
+"""
+        },
+        {
+            "role": "user",
+            "content": content
+        }
+    ]
+    text_generation = TextGeneration()
+    response = text_generation.blue_llm_70B(messages, 1.0)
+    result = normalize_json(response)
+    resume_json = json.loads(result)
+    return resume_json
