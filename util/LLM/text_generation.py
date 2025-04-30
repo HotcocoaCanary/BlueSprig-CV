@@ -15,7 +15,7 @@ class TextGeneration:
         self.uri = '/vivogpt/completions'
         self.method = 'POST'
 
-    def blue_llm_70B(self, messages, temperature=0.9):
+    def blue_llm_70B(self, messages, system_prompt="", temperature=0.9):
         params = {
             'requestId': str(uuid.uuid4())
         }
@@ -25,7 +25,8 @@ class TextGeneration:
             'sessionId': str(uuid.uuid4()),
             'extra': {
                 'temperature': temperature
-            }
+            },
+            'systemPrompt': system_prompt
         }
         headers = gen_sign_headers(self.method, self.uri, params)
         headers['Content-Type'] = 'application/json'

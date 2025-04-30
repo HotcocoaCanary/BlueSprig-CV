@@ -12,10 +12,16 @@ def load_file(file_path: str, image_output_dir: str = "assets/image") -> list:
     content = ""
     for item in content_list:
         if item["type"] == "text":
-            content += item["content"] + "\n\n"
+            content += item["content"] + """。
+            
+            
+            """+"\n\n"
         else:
             text = image_to_text(item["content"])
-            content += text + "\n\n"
+            content += text  + """。
+            
+            
+            """+"\n\n"
 
     return content
 

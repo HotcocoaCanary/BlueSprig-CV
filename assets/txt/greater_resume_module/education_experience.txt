@@ -1,21 +1,24 @@
-// 未提供的信息保持""的json输出，或者直接跳过。这里的JSON有注释，生成的JSON不允许有任何注释。
+// 注意：简历中未明确提供的信息，必须保持""的json输出。
+// 注意，必须严格按照以下JSON的注释信息和相关要求找到简历中的对应字段填入。
+// 注意：这里的JSON有对这条字段的对应要求和解释，生成的JSON不允许有任何注释。
 {
-    "education_experience": [
+    "institution_name": "", //院校名称
+    "study_period": "", //就读时间
+    "academic_ranking": "", //成绩排名
+    "major": "", //专业名称
+    "degree": "", //学历
+    "campus_experience": [
+        //在校经历
         {
-            "institution_name": "", //院校名称
-            "study_period": "", //就读时间
-            "academic_ranking": "", //成绩排名
-            "major": "", //专业名称
-            "degree": "", //学历
-            "campus_experience": [
-                //在校经历
-                {
-                    "campus_activity": "", //社团名称
-                    "campus_position": "", //担任角色
-                    "campus_description": "" //工作描述
-                }
-            ],
-            "description": "" //补充描述
+            "campus_activity": "", //社团名称
+            "campus_position": "", //担任角色
+            "campus_description": "" //工作描述
         },
-    ]
+        {
+            "campus_activity": "", //社团名称
+            "campus_position": "", //担任角色
+            "campus_description": "" //工作描述
+        }
+    ],
+    "description": "" //补充描述
 }

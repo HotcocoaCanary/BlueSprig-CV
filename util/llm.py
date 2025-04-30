@@ -46,44 +46,32 @@ def format_resume(resume_format, content):
     返回:
     str: 格式化后的简历信息。
     """
+    system_prompt = f"""
+            你是一个高度专业的简历信息提取专家。
+            你需要根据下面要求的json格式以及里面的备注说明、基于用户的原简历的信息进行严谨地信息提取。
+            你的输出格式要求：按照以下严格的JSON格式返回JSON的代码本身，绝对不能生成任何注释说明。
+            以下是JSON格式要求：{resume_format}
+    """
     messages = [
         {
             "role": "user",
-            "content": f"""
-你是一个高度专业的简历信息提取专家。
-你需要根据下面要求的json格式以及里面的备注说明、基于用户的原简历的信息进行严谨地信息提取。
-你的输出格式要求：按照以下严格的JSON格式返回JSON的代码本身，绝对不能生成任何注释说明。
-以下是JSON格式要求：{resume_format}
-"""
-        },
-        {
-            "role": "user",
-            "content": content
+            "content": f"请帮我提取简历信息，内容如下:"
+                       f"{content}"
         }
     ]
     text_generation = TextGeneration()
-    response = text_generation.blue_llm_70B(messages, 0.01)
+    response = text_generation.blue_llm_70B(messages, system_prompt=system_prompt, temperature=0.01)
     return response
 
 
 def better_resume_by_module(better_resume_format_part, content_part, part_name):
+    system_prompt = f"""
+        你是一个高度专业的简历{part_name}模块润色专家，你需要针对用户的原简历的{part_name}信息进行严谨地详尽丰富修改优化。要求逻辑清晰，语义通顺。
+        你的输出格式要求：必须按照以下严格的JSON格式返回JSON的代码本身，绝对不能生成任何注释说明。
+        以下是JSON格式要求：
+        {better_resume_format_part}
+    """
     messages = [
-        {
-            "role": "user",
-            "content": f"""
-你是一个高度专业的简历润色专家，你需要基于用户的原简历的信息针对{part_name}模块进行严谨地详尽丰富修改优化。
-内容要求：
-- 针对现有模块中有的信息，参考模板JSON的注释进行丰富优化表达；
-    - 保证基础文本量,
-        - 如原简历文字量较多，例如600字，则保证原文本量的75%;
-        - 如原来的文本量较少，例如少于300字，则扩展扩展至400-600字的范例
-- 原简历中没有提及的信息项必须保持为空，绝对不能杜撰任何虚假信息。
-输出格式要求：
-- 必须严格按照以下的JSON格式返回JSON的代码本身，绝对不能生成任何注释说明。
-以下是JSON格式要求：
-{better_resume_format_part}
-"""
-        },
         {
             "role": "user",
             "content": f"请帮我优化{part_name}模块,内容如下:"
@@ -91,5 +79,5 @@ def better_resume_by_module(better_resume_format_part, content_part, part_name):
         }
     ]
     text_generation = TextGeneration()
-    response = text_generation.blue_llm_70B(messages, 0.7)
+    response = text_generation.blue_llm_70B(messages, system_prompt=system_prompt, temperature=1.0)
     return response
