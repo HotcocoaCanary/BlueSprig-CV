@@ -1,7 +1,8 @@
 import base64
-import json
 import os
+import uuid
 
+from util.LLM.ASR import LASRClient
 from util.LLM.text_generation import TextGeneration
 from util.LLM.tts import TTS
 from util.json_op import validate_and_clean_json
@@ -177,8 +178,9 @@ def generate_questions_audio(questions_list):
     tts = TTS(output_dir="assets/audio")
     questions_audio_list = []
     for item in questions_list:
-        questions_audio_list.append(tts.generate_audio( engineid="short_audio_synthesis_jovi", vcn="zh-CN-XiaoxiaoNeural", text = item))
+        questions_audio_list.append(tts.generate_audio(engineid="short_audio_synthesis_jovi", vcn="yige", text=item))
     return questions_audio_list
+
 
 # 面试结果
 def interview_result(interview_result_format, resume_json, answers_result):
@@ -210,3 +212,37 @@ def interview_result(interview_result_format, resume_json, answers_result):
     text_generation = TextGeneration()
     response = text_generation.blue_llm_70B(messages, system_prompt=system_prompt, temperature=1.0)
     return validate_and_clean_json(response)
+
+
+def audio2text(audio_path):
+    client = LASRClient()
+    result = client.transcribe(audio_path)
+
+    results = result["data"]["result"]
+
+    # 结果处理
+    final_text = []
+    last_end = 0
+
+    # 按时间戳排序（虽然服务端应该已经有序）
+    sorted_results = sorted(results, key=lambda x: x["bg"])
+
+    for segment in sorted_results:
+        # 校验必要字段
+        if "onebest" not in segment or "bg" not in segment or "ed" not in segment:
+            raise ValueError("Invalid segment format")
+
+        # 时间戳校验（可选）
+        if segment["bg"] < last_end:
+            print(f"Warning: Overlapping timestamps at {segment['bg']}")
+
+        last_end = segment["ed"]
+
+        # 拼接文本
+        final_text.append(segment["onebest"].strip())
+
+    # 处理结尾标点（根据需求可选）
+    return " ".join(final_text).replace("。", "。 ")  # 添加空格分隔句号
+
+if __name__ == "__main__":
+    print(audio2text("../assets/audio/面试问题3.m4a"))
