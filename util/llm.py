@@ -1,6 +1,7 @@
 import base64
 
 from util.LLM.text_generation import TextGeneration
+from util.json_op import validate_and_clean_json
 
 
 def image_to_text(image_path):
@@ -26,7 +27,7 @@ def image_to_text(image_path):
         },
         {
             "role": "user",
-            "content": "提取出这个图片中的所有文字，除此之外不要返回任何其他信息",
+            "content": "提取出这个图片中的所有文字，可以按照你的理解将不通顺的地方或者错别字更正，除此之外不要返回任何其他信息",
             "contentType": "text"
         }
     ]
@@ -61,7 +62,7 @@ def format_resume(resume_format, content):
     ]
     text_generation = TextGeneration()
     response = text_generation.blue_llm_70B(messages, system_prompt=system_prompt, temperature=0.01)
-    return response
+    return validate_and_clean_json(response)
 
 
 def better_resume_by_module(better_resume_format_part, content_part, part_name):
@@ -80,4 +81,4 @@ def better_resume_by_module(better_resume_format_part, content_part, part_name):
     ]
     text_generation = TextGeneration()
     response = text_generation.blue_llm_70B(messages, system_prompt=system_prompt, temperature=1.0)
-    return response
+    return validate_and_clean_json(response)
