@@ -1,6 +1,9 @@
 import base64
+import json
+import os
 
 from util.LLM.text_generation import TextGeneration
+from util.LLM.tts import TTS
 from util.json_op import validate_and_clean_json
 
 
@@ -84,10 +87,10 @@ def better_resume_by_module(better_resume_format_part, content_part, part_name):
     return validate_and_clean_json(response)
 
 
-def llm_chat(messages):
+def llm_chat(messages, json=False):
     text_generation = TextGeneration()
     response = text_generation.blue_llm_70B(messages)
-    return validate_and_clean_json(response)
+    return validate_and_clean_json(response) if json else response
 
 
 def resume_judge(resume_judge_format, content, job_name=""):
@@ -117,6 +120,91 @@ def resume_judge(resume_judge_format, content, job_name=""):
             "role": "user",
             "content": f"简历内容如下:"
                        f"{content}"
+        }
+    ]
+    text_generation = TextGeneration()
+    response = text_generation.blue_llm_70B(messages, system_prompt=system_prompt, temperature=1.0)
+    return validate_and_clean_json(response)
+
+
+def resume_json2md(resume_json, md_path):
+    messages = [
+        {
+            "role": "user",
+            "content": f"请按照你的理解将简历的json格式转换为markdown格式，确保json中的所有信息都有体现，并可以添加一些样式增加美观"
+                       f"{resume_json}"
+        }
+    ]
+    text_generation = TextGeneration()
+    response = text_generation.blue_llm_70B(messages)
+
+    # 确保路径存在，没有文件新建文件
+    os.makedirs(os.path.dirname(md_path), exist_ok=True)
+    with open(md_path, "w", encoding="utf-8") as f:
+        f.write(response)
+
+
+def generate_interview_questions(resume_json):
+    template = """
+    {
+        questions: [
+            "问题1",
+            "问题2",
+            "问题3"
+        ],
+    }
+    """
+    messages = [
+        {
+            "role": "user",
+            "content": f"""
+                请根据用户的简历生成面试题，要求如下：
+                1. 每个问题必须针对简历中的具体内容
+                2. 生成的问题数量不超过10个
+                3. 根据用户面试的岗位标准
+                以JSON格式返回，按照以下JSON模板返回：{template}
+                简历内容：
+                {resume_json}
+            """
+        }
+    ]
+    text_generation = TextGeneration()
+    response = text_generation.blue_llm_70B(messages)
+    return validate_and_clean_json(response)
+
+
+def generate_questions_audio(questions_list):
+    tts = TTS(output_dir="assets/audio")
+    questions_audio_list = []
+    for item in questions_list:
+        questions_audio_list.append(tts.generate_audio( engineid="short_audio_synthesis_jovi", vcn="zh-CN-XiaoxiaoNeural", text = item))
+    return questions_audio_list
+
+# 面试结果
+def interview_result(interview_result_format, resume_json, answers_result):
+    system_prompt = f"""
+            你是一个专业的面试分析专家，请严格按照以下要求评价所提供的面试结果，我只能提供求职者的文本信息，你只需要关注文本回答就好：
+            1. 基于用户提供的简历内容
+            3. 总评要求：
+               - 简明扼要（150字内）
+               - 包含优势和改进建议，每一个建议针对到简历中的具体部分中
+            4. 输出要求：
+               - 严格使用指定JSON格式
+               - 直接输出有效JSON代码
+               - 禁止任何注释或说明
+            5. JSON格式模板如下，其中你需要补充的简历诊断内容必须必须做到详细、具体、专业：
+            {interview_result_format}
+        """
+    messages = [
+        {
+            "role": "user",
+            "content": f"简历内容如下:"
+                       f"{resume_json}"
+        },
+        {
+            "role": "user",
+            "content": f"面试结果如下:"
+                       f"{answers_result}"
         }
     ]
     text_generation = TextGeneration()

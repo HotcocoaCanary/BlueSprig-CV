@@ -1,7 +1,7 @@
 import json
 # 工具方法
 from util.file_loader import load_file
-from util.llm import format_resume, llm_chat
+from util.llm import format_resume, llm_chat, resume_json2md
 
 
 # 定义一个函数，用于读取txt文件
@@ -75,6 +75,7 @@ for key, value in resume_json_old.items():
             f"{key}模块初步优化后的结果如下，如果有问题或者建议可以直接指正，没有请输入“没有问题”，我们将进行下一个模块的优化")
         print(f"{key} (new): {resume_json_new[key]}")
         a = input()
+        better_part_content = resume_json_new[key]
         while a != "没有问题":
             format_content = read_txt("assets/txt/greater_resume_module/" + key + ".txt")
             message = [{
@@ -83,7 +84,11 @@ for key, value in resume_json_old.items():
                            f"当前内容{resume_json_old[key]}"
                            f"你的输出格式要求：必须严格保持原有的JSON格式。"
             }]
-            better_part_content = llm_chat(message)
+            better_part_content = llm_chat(message, True)
             print(f"按照你的要求，优化后的结果如下，如果有问题或者建议可以直接指正，我将会按照你的要求重新优化" + better_part_content)
             a = input()
+        resume_json_new[key] = json.loads(better_part_content)
         print("#######################################################")
+
+print(resume_json_new)
+resume_json2md(resume_json_new, "assets/md/1.md")

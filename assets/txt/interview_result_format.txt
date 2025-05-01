@@ -1,0 +1,38 @@
+{
+  // 候选人基本信息
+  "candidate": {
+    // 候选人姓名
+    "name": "",
+    // 岗位名称
+    "position": "Java后端工程师",
+    // 面试日期（YYYY-MM-DD 格式）
+    "interview_date": "2025-05-01"
+  },
+
+  // 面试结果
+  "result": [
+    {
+        "question": "",// 面试问题
+        "answer": "",// 标准答案
+        "score": ,// 你的得分
+        "comments": ""// 评价
+    },
+    {
+        "question": "",// 面试问题
+        "answer": "",// 标准答案
+        "score": ,// 你的得分
+        "comments": ""// 评价
+    }
+  ],
+
+  // 综合评估
+  // 汇总所有阶段得分，计算平均值
+  "overall_evaluation": {
+    // 平均得分，保留一位小数
+    "average_score": ,
+    // 录用建议：Accept/Reject/On-hold
+    "recommendation": "",
+    // 招聘团队综合意见
+    "comments": ""
+  }
+}
