@@ -83,16 +83,12 @@ def better_resume_by_module(better_resume_format_part, content_part, part_name):
     response = text_generation.blue_llm_70B(messages, system_prompt=system_prompt, temperature=1.0)
     return validate_and_clean_json(response)
 
-def better_resume_by_module_chat(better_resume_format_part, messages, part_name):
-    system_prompt = f"""
-        你是一个高度专业的简历{part_name}模块润色专家，你需要针对用户的原简历的{part_name}信息进行严谨地详尽丰富修改优化。要求逻辑清晰，语义通顺。
-        你的输出格式要求：必须按照以下严格的JSON格式返回JSON的代码本身，绝对不能生成任何注释说明。
-        以下是JSON格式要求：
-        {better_resume_format_part}
-    """
+
+def llm_chat(messages):
     text_generation = TextGeneration()
-    response = text_generation.blue_llm_70B(messages, system_prompt=system_prompt, temperature=1.0)
+    response = text_generation.blue_llm_70B(messages)
     return validate_and_clean_json(response)
+
 
 def resume_judge(resume_judge_format, content, job_name=""):
     common_prompt = f"""
@@ -111,7 +107,8 @@ def resume_judge(resume_judge_format, content, job_name=""):
     """
 
     if job_name != "":
-        system_prompt =f"\n\n你是一个专业的{job_name}岗位的简历诊断专家。" +  common_prompt.split("你是一个专业的简历诊断专家，", 1)[1]
+        system_prompt = f"\n\n你是一个专业的{job_name}岗位的简历诊断专家。" + \
+                        common_prompt.split("你是一个专业的简历诊断专家，", 1)[1]
     else:
         system_prompt = common_prompt
 
