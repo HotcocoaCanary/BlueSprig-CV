@@ -82,3 +82,46 @@ def better_resume_by_module(better_resume_format_part, content_part, part_name):
     text_generation = TextGeneration()
     response = text_generation.blue_llm_70B(messages, system_prompt=system_prompt, temperature=1.0)
     return validate_and_clean_json(response)
+
+def better_resume_by_module_chat(better_resume_format_part, messages, part_name):
+    system_prompt = f"""
+        你是一个高度专业的简历{part_name}模块润色专家，你需要针对用户的原简历的{part_name}信息进行严谨地详尽丰富修改优化。要求逻辑清晰，语义通顺。
+        你的输出格式要求：必须按照以下严格的JSON格式返回JSON的代码本身，绝对不能生成任何注释说明。
+        以下是JSON格式要求：
+        {better_resume_format_part}
+    """
+    text_generation = TextGeneration()
+    response = text_generation.blue_llm_70B(messages, system_prompt=system_prompt, temperature=1.0)
+    return validate_and_clean_json(response)
+
+def resume_judge(resume_judge_format, content, job_name=""):
+    common_prompt = f"""
+        你是一个专业的简历诊断专家，请严格按照以下要求评价所提供的简历：
+        1. 基于用户提供的简历内容
+        2. 诊断必须包含总评（summary）和评分（score）
+        3. 总评要求：
+           - 简明扼要（150字内）
+           - 包含优势和改进建议，每一个建议针对到简历中的具体部分中
+        4. 输出要求：
+           - 严格使用指定JSON格式
+           - 直接输出有效JSON代码
+           - 禁止任何注释或说明
+        5. JSON格式模板如下，其中你需要补充的简历诊断内容必须必须做到详细、具体、专业：
+        {resume_judge_format}
+    """
+
+    if job_name != "":
+        system_prompt =f"\n\n你是一个专业的{job_name}岗位的简历诊断专家。" +  common_prompt.split("你是一个专业的简历诊断专家，", 1)[1]
+    else:
+        system_prompt = common_prompt
+
+    messages = [
+        {
+            "role": "user",
+            "content": f"简历内容如下:"
+                       f"{content}"
+        }
+    ]
+    text_generation = TextGeneration()
+    response = text_generation.blue_llm_70B(messages, system_prompt=system_prompt, temperature=1.0)
+    return validate_and_clean_json(response)
